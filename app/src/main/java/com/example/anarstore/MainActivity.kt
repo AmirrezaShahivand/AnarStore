@@ -142,11 +142,11 @@ class MainActivity : ComponentActivity() {
         TODO("Not yet implemented")
     }
 
-    @Composable
-    fun SetStatusBarColor(color: Color) {
-        val systemUiController = rememberSystemUiController()
-        SideEffect {
-            systemUiController.setStatusBarColor(color)
-        }
+}
+@Composable
+fun SetStatusBarColor(color: Color) {
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(color)
     }
 }
