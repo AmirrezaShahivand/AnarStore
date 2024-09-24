@@ -1,4 +1,4 @@
-package com.example.anarstore
+package com.example.anarstore.ui
 
 
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.anarstore.di.myModule
+import com.example.anarstore.ui.features.main.MainScreen
 import com.example.anarstore.ui.theme.AnarStoreTheme
 import com.example.anarstore.unit.KEY_CATEGORY_ARG
 import com.example.anarstore.unit.KEY_PRODUCT_ARG
@@ -30,14 +31,14 @@ class MainActivity : ComponentActivity() {
             Koin(appDeclaration = {
                 androidContext(this@MainActivity)
                 modules(myModule)
-            })
-            {
+            }) {
                 AnarStoreTheme {
                     if (isSystemInDarkTheme()) {
-                        SetStatusBarColor(color = Color.White)
-                    } else {
                         SetStatusBarColor(color = Color.Black)
+                    } else {
+                        SetStatusBarColor(color = Color.White)
                     }
+                    AnarStoreUi()
                 }
             }
 
@@ -137,10 +138,6 @@ class MainActivity : ComponentActivity() {
         TODO("Not yet implemented")
     }
 
-    @Composable
-    fun MainScreen() {
-        TODO("Not yet implemented")
-    }
 
 }
 @Composable

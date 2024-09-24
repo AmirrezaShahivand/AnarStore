@@ -46,7 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.anarstore.SetStatusBarColor
+import com.example.anarstore.ui.SetStatusBarColor
 import com.example.anarstore.model.data.Ads
 import com.example.anarstore.model.data.Product
 import com.example.anarstore.ui.theme.AnarStoreTheme
@@ -78,7 +78,7 @@ fun MainScreenPreview() {
 fun MainScreen() {
     val context = LocalContext.current
     if (isSystemInDarkTheme()) {
-        SetStatusBarColor(color = Color.White)
+        SetStatusBarColor(color = Color.Black)
     } else {
         SetStatusBarColor(color = Color.White)
     }
@@ -129,9 +129,9 @@ fun MainScreen() {
             }
 
         }
-    
 
-    
+
+
     }
 
 }

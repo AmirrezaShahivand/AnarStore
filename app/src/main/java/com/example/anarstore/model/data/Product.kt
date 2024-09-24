@@ -1,9 +1,20 @@
 package com.example.anarstore.model.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+data class ProductResponse(
+    val success : Boolean ,
+    val products: List<Product>
+)
+
+
+@Entity("product_table")
 data class Product(
 
-
+    @PrimaryKey
     val productId: String,
+
     val name: String,
     val imgUrl: String,
     val detailText: String,

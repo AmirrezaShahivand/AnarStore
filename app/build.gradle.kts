@@ -110,16 +110,8 @@ dependencies {
     // Lottie Animation
     implementation("com.airbnb.android:lottie-compose:5.2.0")
 
-    //firebase
-    //noinspection BomWithoutPlatform
-    implementation("com.google.firebase:firebase-bom:32.8.1")
-    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
-    implementation("com.google.firebase:firebase-database:20.3.1")
+    implementation("com.github.parse-community.Parse-SDK-Android:parse:1.25.0")
 
-    //appwrite
-    implementation("io.appwrite:sdk-for-android:5.1.0")
-
-    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 
 
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AnarStore</string>
+
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <string name="back4app_app_id">Tl7tYGJGEVukihqhXMAD71zZuRAQ7a62YMFbKESa</string>
+    <string name="back4app_client_key">o1J3VwnFlXrB9AsALF40GIPXfkPBbQtMro6uIqPW</string>
 </resources>
