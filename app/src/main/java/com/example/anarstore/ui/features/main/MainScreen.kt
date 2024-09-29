@@ -1,5 +1,6 @@
 package com.example.anarstore.ui.features.main
 
+import android.content.res.Resources.Theme
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -53,11 +54,14 @@ import com.example.anarstore.ui.theme.AnarStoreTheme
 import com.example.anarstore.ui.theme.BackgroundMain
 import com.example.anarstore.ui.theme.Blue
 import com.example.anarstore.ui.theme.CardViewBackground
+import com.example.anarstore.ui.theme.TopAppBarDark
+import com.example.anarstore.ui.theme.TopAppBarLight
 import com.example.anarstore.unit.CATEGORY
 import com.example.anarstore.unit.MyScreen
 import com.example.anarstore.unit.NetworkChecker
 import com.example.anarstore.unit.TAGS
 import com.example.anarstore.unit.stylePrice
+import com.google.accompanist.systemuicontroller.SystemUiController
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.navigation.getNavViewModel
 import org.koin.core.parameter.parametersOf
@@ -78,9 +82,9 @@ fun MainScreenPreview() {
 fun MainScreen() {
     val context = LocalContext.current
     if (isSystemInDarkTheme()) {
-        SetStatusBarColor(color = Color.Black)
+        SetStatusBarColor(color = MaterialTheme.colorScheme.onSecondary)
     } else {
-        SetStatusBarColor(color = Color.White)
+        SetStatusBarColor(color = MaterialTheme.colorScheme.onSecondary)
     }
 
     val viewModel = getNavViewModel<MainViewModel>(
@@ -316,11 +320,11 @@ fun TopToolbar(
 
     TopAppBar(
         title = {
-            Text(text = "TopApp Bar")
+            Text(text = "Mac")
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color.White,
-            titleContentColor = Color.Black
+            containerColor = MaterialTheme.colorScheme.secondary ,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
         ),
         actions = {
 
@@ -343,8 +347,13 @@ fun TopToolbar(
             IconButton(onClick = { onProfileClicked.invoke() }) {
                 Icon(Icons.Default.Person, contentDescription = null)
             }
-
-
         }
     )
+}
+
+@Composable
+public fun selectStatusBarColor() : Color {
+
+
+    return Color.Black
 }

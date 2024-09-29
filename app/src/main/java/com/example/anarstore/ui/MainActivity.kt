@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
@@ -14,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.anarstore.di.myModule
+import com.example.anarstore.ui.features.IntroScreen
 import com.example.anarstore.ui.features.main.MainScreen
 import com.example.anarstore.ui.theme.AnarStoreTheme
 import com.example.anarstore.unit.KEY_CATEGORY_ARG
@@ -34,9 +36,9 @@ class MainActivity : ComponentActivity() {
             }) {
                 AnarStoreTheme {
                     if (isSystemInDarkTheme()) {
-                        SetStatusBarColor(color = Color.Black)
+                        SetStatusBarColor(color = MaterialTheme.colorScheme.onSecondary)
                     } else {
-                        SetStatusBarColor(color = Color.White)
+                        SetStatusBarColor(color = MaterialTheme.colorScheme.onSecondary)
                     }
                     AnarStoreUi()
                 }
@@ -57,15 +59,18 @@ class MainActivity : ComponentActivity() {
     fun AnarStoreUi() {
         val navController = rememberNavController()
 
-        KoinNavHost(navController = navController, startDestination = MyScreen.MainScreen.route) {
+        KoinNavHost(navController = navController, startDestination = MyScreen.IntroScreen.route) {
+
+
+            composable(MyScreen.IntroScreen.route) {
+                IntroScreen()
+            }
 
             composable(MyScreen.MainScreen.route) {
                 MainScreen()
             }
 
-            composable(MyScreen.IntroScreen.route) {
-                IntroScreen()
-            }
+
 
             composable( route = MyScreen.ProductScreen.route + "/" + "{$KEY_PRODUCT_ARG}" ,
                 arguments = listOf(navArgument(KEY_PRODUCT_ARG){
@@ -133,10 +138,7 @@ class MainActivity : ComponentActivity() {
         TODO("Not yet implemented")
     }
 
-    @Composable
-    private fun IntroScreen() {
-        TODO("Not yet implemented")
-    }
+
 
 
 }
