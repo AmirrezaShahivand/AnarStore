@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.anarstore.di.myModule
 import com.example.anarstore.ui.features.IntroScreen
+import com.example.anarstore.ui.features.category.CategoryScreen
 import com.example.anarstore.ui.features.main.MainScreen
 import com.example.anarstore.ui.theme.AnarStoreTheme
 import com.example.anarstore.unit.KEY_CATEGORY_ARG
@@ -36,9 +37,9 @@ class MainActivity : ComponentActivity() {
             }) {
                 AnarStoreTheme {
                     if (isSystemInDarkTheme()) {
-                        SetStatusBarColor(color = MaterialTheme.colorScheme.onSecondary)
+                        SetStatusBarColor(color = MaterialTheme.colorScheme.primary)
                     } else {
-                        SetStatusBarColor(color = MaterialTheme.colorScheme.onSecondary)
+                        SetStatusBarColor(color = MaterialTheme.colorScheme.primary)
                     }
                     AnarStoreUi()
                 }
@@ -128,10 +129,6 @@ class MainActivity : ComponentActivity() {
         TODO("Not yet implemented")
     }
 
-    @Composable
-    private fun CategoryScreen(string: String) {
-        TODO("Not yet implemented")
-    }
 
     @Composable
     private fun ProductScreen(string: String) {

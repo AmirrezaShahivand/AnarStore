@@ -13,16 +13,17 @@ import org.koin.dsl.module
 val myModule = module {
 
 
-    single<ProductRepository> { ProductRepositoryImpl( get<AppDatabase>().productDao()) }
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "app_dataBase.db").build()
     }
 
 
+    single<ProductRepository> { ProductRepositoryImpl(get<AppDatabase>().productDao()) }
+
+
 
     viewModel { ProductViewModel(get()) }
     viewModel { (isInternetConnected: Boolean) -> MainViewModel(get(), isInternetConnected) }
-
 
 
 }

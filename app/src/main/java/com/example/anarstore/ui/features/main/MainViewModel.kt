@@ -20,8 +20,6 @@ class MainViewModel(
     val dataProduct = mutableStateOf<List<Product>>(listOf())
     val dataAds = mutableStateOf<List<Ads>>(listOf())
     val showProgressBar = mutableStateOf(false)
-    val badgeNumber = mutableStateOf(0)
-
 
 
 
@@ -44,6 +42,9 @@ class MainViewModel(
 
             delay(1000)
 
+            val newDataProduct = async { productRepository.getAllProducts(isInternetConnected) }
+            val newDataAds = async { productRepository.getAllAds(isInternetConnected) }
+            updateData(newDataProduct.await(), newDataAds.await())
 
             showProgressBar.value = false
 

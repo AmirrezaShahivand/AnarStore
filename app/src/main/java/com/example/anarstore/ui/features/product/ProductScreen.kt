@@ -116,7 +116,6 @@ fun ProductScreen(productId: String) {
         ) {
             ProductToolbar(
                 productName = "Details",
-                badgeNumber = viewModel.badgeNumber.value,
                 onBackClicked = { navigation.popBackStack() },
                 onCartClicked = {
                     if (NetworkChecker(context).isInternetConnected) {
@@ -199,7 +198,7 @@ fun ProductDetail(data: Product) {
                     modifier = Modifier.size(26.dp)
                 )
                 Text(
-                    text = data.material,
+                    text = "data.material",
                     modifier = Modifier.padding(start = 6.dp),
                     fontSize = 13.sp
                 )
@@ -215,7 +214,7 @@ fun ProductDetail(data: Product) {
                     modifier = Modifier.size(26.dp)
                 )
                 Text(
-                    text = data.soldItem + "Sold",
+                    text = "data.soldItem" + "Sold",
                     modifier = Modifier.padding(start = 6.dp),
                     fontSize = 13.sp
                 )
@@ -230,7 +229,7 @@ fun ProductDetail(data: Product) {
             color = Blue
         ) {
             Text(
-                text = data.tags, color = Color.White, modifier = Modifier.padding(6.dp),
+                text = "data.tags", color = Color.White, modifier = Modifier.padding(6.dp),
                 style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Medium)
             )
         }
@@ -243,7 +242,7 @@ fun ProductDetail(data: Product) {
 @Composable
 fun ProductDesign(data: Product, onCategoryClicked: (String) -> Unit) {
     AsyncImage(
-        model = data.imgUrl, contentDescription = null,
+        model = data.img, contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .fillMaxWidth()
@@ -278,7 +277,6 @@ fun ProductDesign(data: Product, onCategoryClicked: (String) -> Unit) {
 @Composable
 fun ProductToolbar(
     productName: String,
-    badgeNumber: Int,
     onBackClicked: () -> Unit,
     onCartClicked: () -> Unit
 ) {
@@ -315,15 +313,7 @@ fun ProductToolbar(
                 onClick = { onCartClicked.invoke() }
             ) {
 
-                if (badgeNumber == 0) {
-                    Icon(Icons.Default.ShoppingCart, null)
-                } else {
-
-                    BadgedBox(badge = { Badge { Text(badgeNumber.toString()) } }) {
-                        Icon(Icons.Default.ShoppingCart, null)
-                    }
                 }
-            }
         }
     )
 }

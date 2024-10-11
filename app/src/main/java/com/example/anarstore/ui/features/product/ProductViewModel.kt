@@ -16,9 +16,6 @@ class ProductViewModel(
 ) : ViewModel() {
 
     val thisProduct  = mutableStateOf(EMPTY_PRODUCT)
-    val comments = mutableStateOf(listOf<Comment>())
-    val isAddingProduct = mutableStateOf(false)
-    val badgeNumber = mutableStateOf(0)
 
     fun loadData(productId: String, isInternetConnected: Boolean) {
         loadProductFromCache(productId)

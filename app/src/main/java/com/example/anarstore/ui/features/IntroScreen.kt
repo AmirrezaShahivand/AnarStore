@@ -61,8 +61,13 @@ fun IntroScreen(){
 
     LaunchedEffect(Unit) {
         delay(650)
-        navigation.navigate(MyScreen.MainScreen.route)
+        navigation.navigate(MyScreen.MainScreen.route){
+            popUpTo(MyScreen.IntroScreen.route){
+                inclusive = true
+            }
+        }
     }
+
 
     }
 

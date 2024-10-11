@@ -3,6 +3,7 @@ package com.example.anarstore.ui.features.main
 import android.content.res.Resources.Theme
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -71,7 +72,7 @@ import org.koin.core.parameter.parametersOf
 fun MainScreenPreview() {
     AnarStoreTheme {
         Surface(
-            color = BackgroundMain, modifier = Modifier.fillMaxSize()
+            color = Blue, modifier = Modifier.fillMaxSize()
         ) {
             MainScreen()
         }
@@ -82,9 +83,9 @@ fun MainScreenPreview() {
 fun MainScreen() {
     val context = LocalContext.current
     if (isSystemInDarkTheme()) {
-        SetStatusBarColor(color = MaterialTheme.colorScheme.onSecondary)
+        SetStatusBarColor(color = MaterialTheme.colorScheme.primary)
     } else {
-        SetStatusBarColor(color = MaterialTheme.colorScheme.onSecondary)
+        SetStatusBarColor(color = MaterialTheme.colorScheme.primary)
     }
 
     val viewModel = getNavViewModel<MainViewModel>(
@@ -103,7 +104,7 @@ fun MainScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(bottom = 16.dp)
+                .background(MaterialTheme.colorScheme.background)
         ) {
 
             if (viewModel.showProgressBar.value) {
@@ -112,15 +113,7 @@ fun MainScreen() {
                     color = Blue
                 )
             }
-            TopToolbar(badgeNumber = viewModel.badgeNumber.value, onCartClicked = {
-                if (NetworkChecker(context).isInternetConnected)
-                    navigation.navigate(MyScreen.CartScreen.route)
-                else
-                    Toast.makeText(context, "please connect to internet", Toast.LENGTH_SHORT).show()
-            },
-                onProfileClicked = {
-                    navigation.navigate(MyScreen.ProfileScreen.route)
-                })
+            TopToolbar()
 
             CategoryBar(CATEGORY) {
                 navigation.navigate(MyScreen.CategoryScreen.route + "/" + it)
@@ -155,7 +148,7 @@ fun ProductSubjectList(
 
         Column {
             tags.forEachIndexed { it, _ ->
-                val withTagData = product.filter { product -> product.tags == tags[it] }
+                val withTagData = product.filter { product -> product.quantity == tags[it] }
                 ProductSubject(tags[it], withTagData.shuffled(), onProductClicked)
 
                 if (ads.size >= 2)
@@ -195,7 +188,8 @@ fun ProductSubject(subject: String, data: List<Product>, onProductClicked: (Stri
         Text(
             text = subject,
             modifier = Modifier.padding(start = 16.dp),
-            style = MaterialTheme.typography.labelLarge
+            style = MaterialTheme.typography.labelLarge ,
+            color = MaterialTheme.colorScheme.onPrimary
         )
 
         ProductBar(data, onProductClicked)
@@ -225,7 +219,7 @@ fun ProductBar(data: List<Product>, onProductClicked: (String) -> Unit) {
 fun ProductItem(product: Product, onProductClicked: (String) -> Unit) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.primary,
         ),
         modifier = Modifier
             .padding(start = 16.dp)
@@ -238,7 +232,7 @@ fun ProductItem(product: Product, onProductClicked: (String) -> Unit) {
             AsyncImage(
                 modifier = Modifier.size(200.dp),
                 contentScale = ContentScale.Crop,
-                model = product.imgUrl,
+                model = product.img,
                 contentDescription = null
             )
 
@@ -253,10 +247,7 @@ fun ProductItem(product: Product, onProductClicked: (String) -> Unit) {
                     text = stylePrice(product.price),
                     style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Medium)
                 )
-                Text(
-                    text = product.soldItem,
-                    style = TextStyle(color = Color.Gray, fontSize = 13.sp)
-                )
+
             }
 
 
@@ -289,7 +280,7 @@ fun CategoryItem(subject: Pair<String, Int>, ocCategoryClicked: (String) -> Unit
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Surface(shape = shapes.medium, color = CardViewBackground) {
+        Surface(shape = shapes.medium, color = MaterialTheme.colorScheme.secondary) {
 
             Image(
                 modifier = Modifier.padding(16.dp),
@@ -311,11 +302,7 @@ fun CategoryItem(subject: Pair<String, Int>, ocCategoryClicked: (String) -> Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopToolbar(
-    badgeNumber: Int
-    ,onCartClicked: () -> Unit ,
-     onProfileClicked: () -> Unit
-) {
+fun TopToolbar() {
 
 
     TopAppBar(
@@ -323,31 +310,10 @@ fun TopToolbar(
             Text(text = "Mac")
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.secondary ,
+            containerColor = MaterialTheme.colorScheme.primary ,
             titleContentColor = MaterialTheme.colorScheme.onPrimary
-        ),
-        actions = {
+        )
 
-
-            IconButton(
-                modifier = Modifier.padding(end = 6.dp),
-                onClick = { onCartClicked.invoke() }
-            ) {
-
-                if (badgeNumber == 0) {
-                    Icon(Icons.Default.ShoppingCart, null)
-                } else {
-
-                    BadgedBox(badge = { Badge { Text(badgeNumber.toString()) } }) {
-                        Icon(Icons.Default.ShoppingCart, null)
-                    }
-                }
-            }
-
-            IconButton(onClick = { onProfileClicked.invoke() }) {
-                Icon(Icons.Default.Person, contentDescription = null)
-            }
-        }
     )
 }
 

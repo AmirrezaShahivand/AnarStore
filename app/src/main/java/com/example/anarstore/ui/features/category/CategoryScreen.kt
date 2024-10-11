@@ -73,7 +73,7 @@ fun CategoryItem(data: Product, onProductClicked: (String) -> Unit) {
 
         Column {
             AsyncImage(
-                model = data.imgUrl, contentDescription = null,
+                model = data.img, contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,7 +109,7 @@ fun CategoryItem(data: Product, onProductClicked: (String) -> Unit) {
                 ) {
 
                     Text(
-                        text = data.soldItem,
+                        text = "",
                         modifier = Modifier.padding(4.dp),
                         style = TextStyle(
                             fontSize = 13.sp,

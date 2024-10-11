@@ -8,6 +8,12 @@ import com.example.anarstore.model.data.Product
 @Dao
 interface ProductDao {
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+   suspend fun insertOrUpdate(products : List<Product>)
+
+
+    @Query("SELECT * FROM product_table")
+    suspend fun getAll() : List<Product>
 
 
 
