@@ -17,7 +17,12 @@ class CategoryViewModel(
 
     fun loadDataByCategory(category: String) {
 
+        viewModelScope.launch {
 
+            val dataFromLocal = productRepository.getAllProductsByCategory(category)
+            dataProduct.value = dataFromLocal
+
+        }
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.anarstore.ui.features.category
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,8 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,9 +49,7 @@ fun CategoryScreen(categoryName: String) {
         modifier = Modifier.fillMaxSize()
     ) {
 
-        CategoryToolbar(categoryName) {
-
-        }
+        CategoryToolbar(categoryName)
 
         val data = viewModel.dataProduct
 
@@ -66,9 +67,13 @@ fun CategoryItem(data: Product, onProductClicked: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-            .clickable { onProductClicked.invoke(data.productId) },
+            .clickable { onProductClicked.invoke(data.productId) }
+        ,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        shape = shapes.medium
+        shape = shapes.medium ,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondary
+        )
     ) {
 
         Column {
@@ -89,33 +94,13 @@ fun CategoryItem(data: Product, onProductClicked: (String) -> Unit) {
                 ) {
                     Text(
                         text = data.name,
-                        style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Medium)
+                        style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Medium , color = MaterialTheme.colorScheme.onPrimary)
                     )
 
                     Text(
-                        text = data.price + "Tomans",
+                        text = data.price + " Tomans",
                         modifier = Modifier.padding(top = 4.dp),
-                        style = TextStyle(fontSize = 14.sp)
-                    )
-
-                }
-
-                Surface(
-                    modifier = Modifier
-                        .padding(bottom = 8.dp, end = 8.dp)
-                        .align(Alignment.Bottom)
-                        .clip(shapes.large)
-                    , color = Color.Blue
-                ) {
-
-                    Text(
-                        text = "",
-                        modifier = Modifier.padding(4.dp),
-                        style = TextStyle(
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Color.White
-                        )
+                        style = TextStyle(fontSize = 14.sp , color = MaterialTheme.colorScheme.onPrimary )
                     )
 
                 }
@@ -141,14 +126,14 @@ fun CategoryList(data: List<Product>, onProductClicked: (String) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryToolbar(categoryName: String, onProductClicked: (String) -> Unit) {
+fun CategoryToolbar(categoryName: String) {
 
     TopAppBar(title = {
         Text(text = categoryName)
     },
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color.White,
-            titleContentColor = Color.Black
+            containerColor = MaterialTheme.colorScheme.primary ,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
         ),
         modifier = Modifier.fillMaxWidth()
 

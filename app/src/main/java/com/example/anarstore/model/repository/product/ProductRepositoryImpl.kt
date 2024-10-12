@@ -101,5 +101,11 @@ class ProductRepositoryImpl(
         return listOf()
     }
 
+    override suspend fun getAllProductsByCategory(category: String): List<Product> {
+
+        val x = productDao.getAllByCategory(category)
+        return x
+    }
+
 }
 
