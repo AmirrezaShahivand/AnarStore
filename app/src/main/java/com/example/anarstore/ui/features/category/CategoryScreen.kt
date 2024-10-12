@@ -47,6 +47,7 @@ fun CategoryScreen(categoryName: String) {
 
     Column(
         modifier = Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
 
         CategoryToolbar(categoryName)
@@ -72,7 +73,7 @@ fun CategoryItem(data: Product, onProductClicked: (String) -> Unit) {
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = shapes.medium ,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondary
+            containerColor = MaterialTheme.colorScheme.primary
         )
     ) {
 
