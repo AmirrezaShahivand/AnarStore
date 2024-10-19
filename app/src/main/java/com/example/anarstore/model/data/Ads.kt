@@ -8,6 +8,7 @@ data class AdsResponse(
 
 data class Ads(
     val adId : String ,
+    val name : String ,
     val imageURL : String ,
     val productId : String
 )

@@ -2,6 +2,7 @@ package com.example.anarstore.ui.features.category
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,17 +23,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.anarstore.model.data.Product
+import com.example.anarstore.ui.SetStatusBarColor
 import com.example.anarstore.unit.MyScreen
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.navigation.getNavViewModel
@@ -40,25 +45,37 @@ import dev.burnoo.cokoin.navigation.getNavViewModel
 @Composable
 fun CategoryScreen(categoryName: String) {
 
+    if (isSystemInDarkTheme()) {
+        SetStatusBarColor(color = MaterialTheme.colorScheme.primary)
+    } else {
+        SetStatusBarColor(color = MaterialTheme.colorScheme.primary)
+    }
+
     val viewModel = getNavViewModel<CategoryViewModel>()
     viewModel.loadDataByCategory(categoryName)
 
     val navigation = getNavController()
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
-        CategoryToolbar(categoryName)
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
 
-        val data = viewModel.dataProduct
+            CategoryToolbar(categoryName)
 
-        CategoryList(data.value) {
-            navigation.navigate(MyScreen.ProductScreen.route + "/" + it)
+            val data = viewModel.dataProduct
+
+            CategoryList(data.value) {
+                navigation.navigate(MyScreen.ProductScreen.route + "/" + it)
+            }
+
         }
 
     }
+
+
 }
 
 @Composable
@@ -137,8 +154,7 @@ fun CategoryToolbar(categoryName: String) {
             titleContentColor = MaterialTheme.colorScheme.onPrimary
         ),
         modifier = Modifier.fillMaxWidth()
-
-
+        
     )
 
 }

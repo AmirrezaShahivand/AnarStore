@@ -19,13 +19,14 @@ class ProductViewModel(
 
     fun loadData(productId: String, isInternetConnected: Boolean) {
         loadProductFromCache(productId)
-
-
     }
 
     private fun loadProductFromCache(productId: String) {
 
 
+        viewModelScope.launch(coroutineExceptionHandler) {
+            thisProduct.value = productRepository.getProductById(productId)
+        }
 
     }
 

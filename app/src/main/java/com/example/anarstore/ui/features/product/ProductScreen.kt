@@ -36,6 +36,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,6 +44,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,11 +53,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -90,50 +94,57 @@ fun ProductScreenPreview() {
 fun ProductScreen(productId: String) {
     val context = LocalContext.current
 
+    if (isSystemInDarkTheme()) {
+        SetStatusBarColor(color = MaterialTheme.colorScheme.primary)
+    } else {
+        SetStatusBarColor(color = MaterialTheme.colorScheme.primary)
+    }
+
     val viewModel = getNavViewModel<ProductViewModel>()
     viewModel.loadData(productId, NetworkChecker(context).isInternetConnected)
-
-    if (isSystemInDarkTheme()) {
-        SetStatusBarColor(color = Color.White)
-    } else {
-        SetStatusBarColor(color = Color.White)
-    }
 
 
     val navigation = getNavController()
 
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomCenter
-    ) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 58.dp)
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+            ,
+            contentAlignment = Alignment.BottomCenter
         ) {
-            ProductToolbar(
-                productName = "Details",
-                onBackClicked = { navigation.popBackStack() },
-                onCartClicked = {
-                    if (NetworkChecker(context).isInternetConnected) {
-                        navigation.navigate(MyScreen.CartScreen.route)
-                    } else {
-                        Toast.makeText(context, "please connect to internet!", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                })
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = 58.dp)
+            ) {
+                ProductToolbar(
+                    productName = "Details",
+                    onBackClicked = { navigation.popBackStack() },
+                    onCartClicked = {
+                        if (NetworkChecker(context).isInternetConnected) {
+                            navigation.navigate(MyScreen.CartScreen.route)
+                        } else {
+                            Toast.makeText(context, "please connect to internet!", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    },
+                )
 
 
-            ProductItem(
-                data = viewModel.thisProduct.value,
-                onCategoryClicked = { navigation.navigate(MyScreen.CategoryScreen.route + "/" + it) },
-            )
+                ProductItem(
+                    data = viewModel.thisProduct.value,
+                    onCategoryClicked = { navigation.navigate(MyScreen.CategoryScreen.route + "/" + it) },
+                )
+            }
+
         }
-
     }
+
+
 }
 
 @Composable
@@ -162,14 +173,9 @@ fun ProductItem(
         )
 
 
-
     }
 
 }
-
-
-
-
 
 
 @Composable
@@ -180,59 +186,27 @@ fun ProductDetail(data: Product) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
 
         Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.color.black),
-                    contentDescription = null,
-                    modifier = Modifier.size(26.dp)
-                )
-            }
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(top = 10.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.color.black),
+                    painter = painterResource(id = R.drawable.ic_details_material),
                     contentDescription = null,
                     modifier = Modifier.size(26.dp)
                 )
                 Text(
-                    text = "data.material",
+                    text = data.quantity.toString(),
                     modifier = Modifier.padding(start = 6.dp),
-                    fontSize = 13.sp
+                    fontSize = 13.sp ,
+                    style = TextStyle(color = MaterialTheme.colorScheme.onPrimary)
                 )
             }
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(top = 10.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.color.black),
-                    contentDescription = null,
-                    modifier = Modifier.size(26.dp)
-                )
-                Text(
-                    text = "data.soldItem" + "Sold",
-                    modifier = Modifier.padding(start = 6.dp),
-                    fontSize = 13.sp
-                )
-            }
 
         }
 
-        Surface(
-            modifier = Modifier
-                .clip(shapes.large)
-                .align(Alignment.Bottom),
-            color = Blue
-        ) {
-            Text(
-                text = "data.tags", color = Color.White, modifier = Modifier.padding(6.dp),
-                style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Medium)
-            )
-        }
 
     }
 
@@ -246,8 +220,8 @@ fun ProductDesign(data: Product, onCategoryClicked: (String) -> Unit) {
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
-            .clip(shapes.medium)
+            .height(400.dp)
+            .clip(shapes.large)
     )
 
     Text(
@@ -255,20 +229,21 @@ fun ProductDesign(data: Product, onCategoryClicked: (String) -> Unit) {
         modifier = Modifier.padding(top = 14.dp),
         style = TextStyle(
             fontSize = 20.sp,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium ,
+            color = MaterialTheme.colorScheme.onPrimary
         )
     )
 
     Text(
         text = data.detailText,
         modifier = Modifier.padding(top = 4.dp),
-        style = TextStyle(fontSize = 15.sp, textAlign = TextAlign.Justify)
+        style = TextStyle(fontSize = 15.sp, textAlign = TextAlign.Justify , color = MaterialTheme.colorScheme.onPrimary)
     )
 
     TextButton(onClick = { onCategoryClicked.invoke(data.category) }) {
         Text(
-            text = "#" + data.category,
-            style = TextStyle(fontSize = 13.sp)
+            text =  data.category + "#",
+            style = TextStyle(fontSize = 13.sp , color = MaterialTheme.colorScheme.onPrimary)
         )
     }
 }
@@ -292,8 +267,8 @@ fun ProductToolbar(
         },
 
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color.White,
-            titleContentColor = Color.Black
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
         ),
         modifier = Modifier.fillMaxWidth(),
         title = {
@@ -313,7 +288,7 @@ fun ProductToolbar(
                 onClick = { onCartClicked.invoke() }
             ) {
 
-                }
+            }
         }
     )
 }

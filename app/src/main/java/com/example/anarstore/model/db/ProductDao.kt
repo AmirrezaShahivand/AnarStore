@@ -18,6 +18,8 @@ interface ProductDao {
     @Query("SELECT * FROM product_table WHERE category LIKE :category")
     suspend fun getAllByCategory(category : String) :List <Product>
 
+    @Query("SELECT * FROM product_table WHERE productId = :productId")
+    suspend fun getProductById(productId : String) : Product
 
 
 }

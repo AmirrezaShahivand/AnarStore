@@ -18,6 +18,7 @@ import com.example.anarstore.di.myModule
 import com.example.anarstore.ui.features.IntroScreen
 import com.example.anarstore.ui.features.category.CategoryScreen
 import com.example.anarstore.ui.features.main.MainScreen
+import com.example.anarstore.ui.features.product.ProductScreen
 import com.example.anarstore.ui.theme.AnarStoreTheme
 import com.example.anarstore.unit.KEY_CATEGORY_ARG
 import com.example.anarstore.unit.KEY_PRODUCT_ARG
@@ -130,10 +131,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    @Composable
-    private fun ProductScreen(string: String) {
-        TODO("Not yet implemented")
-    }
+
 
 
 

@@ -35,16 +35,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -81,6 +84,7 @@ fun MainScreenPreview() {
 
 @Composable
 fun MainScreen() {
+
     val context = LocalContext.current
     if (isSystemInDarkTheme()) {
         SetStatusBarColor(color = MaterialTheme.colorScheme.primary)
@@ -96,42 +100,49 @@ fun MainScreen() {
     val navigation = getNavController()
 
 
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+        // محتوای شما که می‌خواهید راست‌چین شود
 
-    Box {
+        Box {
 
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .background(MaterialTheme.colorScheme.background)
-        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .background(MaterialTheme.colorScheme.background)
+            ) {
 
-            if (viewModel.showProgressBar.value) {
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = Blue
-                )
+                if (viewModel.showProgressBar.value) {
+                    LinearProgressIndicator(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = Blue
+                    )
+                }
+                TopToolbar()
+
+                CategoryBar(CATEGORY) {
+                    navigation.navigate(MyScreen.CategoryScreen.route + "/" + it)
+                }
+
+                val productDataState = viewModel.dataProduct
+                val adsDataState = viewModel.dataAds
+                ProductSubjectList(TAGS, productDataState.value, adsDataState.value) {
+                    navigation.navigate(MyScreen.ProductScreen.route + "/" + it)
+                }
+
             }
-            TopToolbar()
 
-            CategoryBar(CATEGORY) {
-                navigation.navigate(MyScreen.CategoryScreen.route + "/" + it)
-            }
 
-            val productDataState = viewModel.dataProduct
-            val adsDataState = viewModel.dataAds
-            ProductSubjectList(TAGS, productDataState.value, adsDataState.value) {
-                navigation.navigate(MyScreen.ProductScreen.route + "/" + it)
-            }
 
         }
+
+    }
 
 
 
     }
 
-}
 
 
 

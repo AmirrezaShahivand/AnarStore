@@ -82,8 +82,10 @@ class ProductRepositoryImpl(
                         val name = it.getString("name")
                         val parseFile: ParseFile? = it.getParseFile("image")
                         val img: String? = parseFile?.url
+                        val product = it.getParseObject("productId")
+                        val productId = product?.objectId
 
-                        val ads = Ads(id, img!!, name!!)
+                        val ads = Ads(id,name!! ,  img!! , productId.toString())
 
                         adsList.add(ads)
 
@@ -105,6 +107,10 @@ class ProductRepositoryImpl(
 
         val x = productDao.getAllByCategory(category)
         return x
+    }
+
+    override suspend fun getProductById(productId: String): Product {
+        return productDao.getProductById(productId)
     }
 
 }
