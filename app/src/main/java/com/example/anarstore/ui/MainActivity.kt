@@ -19,6 +19,7 @@ import com.example.anarstore.ui.features.IntroScreen
 import com.example.anarstore.ui.features.category.CategoryScreen
 import com.example.anarstore.ui.features.main.MainScreen
 import com.example.anarstore.ui.features.product.ProductScreen
+import com.example.anarstore.ui.features.search.SearchScreen
 import com.example.anarstore.ui.theme.AnarStoreTheme
 import com.example.anarstore.unit.KEY_CATEGORY_ARG
 import com.example.anarstore.unit.KEY_PRODUCT_ARG
@@ -104,6 +105,10 @@ class MainActivity : ComponentActivity() {
 
             composable(MyScreen.SignInScreen.route) {
                 SignInScreen()
+            }
+
+            composable(MyScreen.SearchScreen.route){
+                SearchScreen()
             }
 
         }

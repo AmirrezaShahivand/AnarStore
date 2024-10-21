@@ -13,6 +13,7 @@ import com.parse.ParseObject
 import com.parse.ParseQuery
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 import kotlin.coroutines.suspendCoroutine
 
@@ -111,6 +112,10 @@ class ProductRepositoryImpl(
 
     override suspend fun getProductById(productId: String): Product {
         return productDao.getProductById(productId)
+    }
+
+    override suspend fun searchProducts(query: String): Flow<List<Product>> {
+        return productDao.searchProducts(query)
     }
 
 }

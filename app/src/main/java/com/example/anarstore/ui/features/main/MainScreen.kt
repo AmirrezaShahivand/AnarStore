@@ -1,7 +1,6 @@
 package com.example.anarstore.ui.features.main
 
-import android.content.res.Resources.Theme
-import android.widget.Toast
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,10 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -55,17 +51,12 @@ import com.example.anarstore.ui.SetStatusBarColor
 import com.example.anarstore.model.data.Ads
 import com.example.anarstore.model.data.Product
 import com.example.anarstore.ui.theme.AnarStoreTheme
-import com.example.anarstore.ui.theme.BackgroundMain
 import com.example.anarstore.ui.theme.Blue
-import com.example.anarstore.ui.theme.CardViewBackground
-import com.example.anarstore.ui.theme.TopAppBarDark
-import com.example.anarstore.ui.theme.TopAppBarLight
 import com.example.anarstore.unit.CATEGORY
 import com.example.anarstore.unit.MyScreen
 import com.example.anarstore.unit.NetworkChecker
 import com.example.anarstore.unit.TAGS
 import com.example.anarstore.unit.stylePrice
-import com.google.accompanist.systemuicontroller.SystemUiController
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.navigation.getNavViewModel
 import org.koin.core.parameter.parametersOf
@@ -75,7 +66,7 @@ import org.koin.core.parameter.parametersOf
 fun MainScreenPreview() {
     AnarStoreTheme {
         Surface(
-            color = Blue, modifier = Modifier.fillMaxSize()
+           modifier = Modifier.fillMaxSize()
         ) {
             MainScreen()
         }
@@ -101,7 +92,6 @@ fun MainScreen() {
 
 
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-        // محتوای شما که می‌خواهید راست‌چین شود
 
         Box {
 
@@ -119,7 +109,14 @@ fun MainScreen() {
                         color = Blue
                     )
                 }
-                TopToolbar()
+
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr){
+                    TopToolbar(){
+                        navigation.navigate(MyScreen.SearchScreen.route)
+                    }
+                }
+
+
 
                 CategoryBar(CATEGORY) {
                     navigation.navigate(MyScreen.CategoryScreen.route + "/" + it)
@@ -134,16 +131,12 @@ fun MainScreen() {
             }
 
 
-
         }
 
     }
 
 
-
-    }
-
-
+}
 
 
 @Composable
@@ -199,7 +192,7 @@ fun ProductSubject(subject: String, data: List<Product>, onProductClicked: (Stri
         Text(
             text = subject,
             modifier = Modifier.padding(start = 16.dp),
-            style = MaterialTheme.typography.labelLarge ,
+            style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onPrimary
         )
 
@@ -313,7 +306,9 @@ fun CategoryItem(subject: Pair<String, Int>, ocCategoryClicked: (String) -> Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopToolbar() {
+fun TopToolbar(
+onSearchClicked : () -> Unit
+) {
 
 
     TopAppBar(
@@ -321,15 +316,22 @@ fun TopToolbar() {
             Text(text = "Mac")
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary ,
+            containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary
-        )
+        ),
+        actions = {
+
+            IconButton(onClick = { onSearchClicked.invoke() }) {
+                Icon(Icons.Default.Search, contentDescription = null)
+            }
+
+        }
 
     )
 }
 
 @Composable
-public fun selectStatusBarColor() : Color {
+public fun selectStatusBarColor(): Color {
 
 
     return Color.Black

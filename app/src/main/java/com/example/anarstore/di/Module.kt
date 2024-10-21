@@ -7,6 +7,7 @@ import com.example.anarstore.model.repository.product.ProductRepositoryImpl
 import com.example.anarstore.ui.features.category.CategoryViewModel
 import com.example.anarstore.ui.features.main.MainViewModel
 import com.example.anarstore.ui.features.product.ProductViewModel
+import com.example.anarstore.ui.features.search.SearchViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -26,6 +27,7 @@ val myModule = module {
     viewModel { ProductViewModel(get()) }
     viewModel { (isInternetConnected: Boolean) -> MainViewModel(get(), isInternetConnected) }
     viewModel { CategoryViewModel(get()) }
+    viewModel { SearchViewModel(get()) }
 
 
 

@@ -4,6 +4,7 @@ import com.example.anarstore.model.data.Ads
 import com.example.anarstore.model.data.Product
 import com.parse.ParseObject
 import com.parse.ParseQuery
+import kotlinx.coroutines.flow.Flow
 
 
 interface ProductRepository {
@@ -16,5 +17,6 @@ interface ProductRepository {
 
     suspend fun getProductById(productId : String) : Product
 
+    suspend fun searchProducts(query: String): Flow<List<Product>>
 
 }
